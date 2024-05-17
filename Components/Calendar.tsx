@@ -23,6 +23,8 @@ const MyCalendar = () => {
     // Ramazan Bayramı and Kurban Bayramı are not included because they change every year
   };
 
+  const local = localStorage.getItem("events")
+
   useEffect(() => {
     const calendar = document.querySelector(".calendar"),
       date = document.querySelector(".date"),
@@ -497,7 +499,7 @@ const MyCalendar = () => {
       time = timeHour + ":" + timeMin + " " + timeFormat;
       return time;
     }
-  }, [localStorage.getItem("events")]);
+  }, [local]);
 
   const [closestEvent, setClosestEvent] = useState(null);
   const [timeRemaining, setTimeRemaining] = useState(0);
