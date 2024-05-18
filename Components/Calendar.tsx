@@ -569,13 +569,13 @@ const MyCalendar = () => {
         const seconds = timeInSeconds % 60;
         let timeString = "";
         if (days > 0) {
-          timeString += `${days}d, `;
+          timeString += `${days}g, `;
         }
         if (timeString.length > 0 || hours > 0) {
-          timeString += `${hours}h, `;
+          timeString += `${hours}s, `;
         }
         if (timeString.length > 0 || minutes > 0) {
-          timeString += `${minutes}m, `;
+          timeString += `${minutes}d, `;
         }
         timeString += `${seconds}s`;
 
@@ -812,7 +812,6 @@ const MyCalendar = () => {
                                 }
                               }
                             });
-                            // updateEvents(activeDay);
 
                             // Update the events in localStorage
 
