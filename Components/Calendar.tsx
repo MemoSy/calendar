@@ -446,10 +446,10 @@ const MyCalendar = () => {
       }
 
       // Store the updated eventsArr in localStorage
-      if (typeof window !== "undefined") {
-        // localStorage is safe to use here
-        localStorage.setItem("key", "value");
-      }
+
+      // localStorage is safe to use here
+      localStorage.setItem("events", JSON.stringify(eventsArr));
+
       // @ts-ignore
       addEventWrapper.classList.remove("active");
       // @ts-ignore
@@ -494,10 +494,9 @@ const MyCalendar = () => {
           // updateEvents(activeDay);
 
           // Update the events in localStorage
-          if (typeof window !== "undefined") {
-            // localStorage is safe to use here
-            localStorage.setItem("key", "value");
-          }
+
+          // localStorage is safe to use here
+          localStorage.setItem("events", JSON.stringify(eventsArr));
         }
       }
     });
@@ -693,7 +692,7 @@ const MyCalendar = () => {
           </div>
         </div>
         <div className="w-full md:w-[33%] pt-6 flex justify-between items-center flex-col h-[100%] gap-28">
-          {/* <h1 className="hidden md:flex text-[44px] text-[#565656]">{time}</h1> */}
+          <h1 className="hidden md:flex text-[44px] text-[#565656]">{time}</h1>
           <div className="hidden md:flex text-[30px] gap-2">
             {weather ? (
               <>
@@ -816,10 +815,9 @@ const MyCalendar = () => {
                             // updateEvents(activeDay);
 
                             // Update the events in localStorage
-                            if (typeof window !== "undefined") {
-                              // localStorage is safe to use here
-                              localStorage.setItem("key", "value");
-                            }
+
+                            // localStorage is safe to use here
+                            localStorage.setItem("events", JSON.stringify(eventsArr));
                           }
                         }}
                       >
