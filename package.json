@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "prebuild": "npx tailwindcss -i ./src/app/globals.css -o ./src/app/globals.css",
+    "prebuild": "npx tailwindcss -i ./app/globals.css -o ./app/globals.css",
     "start": "next start",
     "lint": "next lint"
   },
