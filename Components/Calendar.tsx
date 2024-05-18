@@ -653,7 +653,7 @@ const MyCalendar = () => {
     <>
       <div className="containers w-[95%]  flex-col md:flex-row p-0 md:!p-[5px]">
         <h1 className="absolute bottom-2 right-8 text-[#868794]">
-          7/P Sinifi tarafindan hazirlanmistir.
+          7/P Sinifi teknoloji öğretmenine hediye.
         </h1>
         <div className="left1 flex flex-col justify-between !w-full md:!w-[40%] !p-0 md:!p-5">
           <div className="hidden md:flex  md:translate-y-7 translate-x-7">
@@ -692,14 +692,22 @@ const MyCalendar = () => {
         </div>
         <div className="w-full md:w-[33%] pt-6 flex justify-between items-center flex-col h-[100%] gap-28">
           <h1 className="hidden md:flex text-[44px] text-[#565656]">{time}</h1>
-          <div className="hidden md:flex text-[30px] gap-2">
+          <div className="hidden md:flex text-[30px] gap-2 !text-[#A0A1AB]">
             {weather ? (
-              <>
-                {city} ||{" "}
+              <p className="text-[#565656]">
+                {city}{" "}
+                <span
+                  style={{
+                    color: "white",
+                  }}
+                >
+                  {" "}
+                  ||{" "}
+                </span>{" "}
                 <span className="bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
                   {weather}°C
                 </span>
-              </>
+              </p>
             ) : (
               "Hava durumu verileri yükleniyor..."
             )}
@@ -782,7 +790,7 @@ const MyCalendar = () => {
                       >
                         <div className="title">
                           <i className="fas fa-circle"></i>
-                          <h3 className="event-title">{event.title}</h3>
+                          <h3 className="event-title text-[#565656]">{event.title}</h3>
                         </div>
                         <div className="event-time">
                           <span className="event-time">{event.time}</span>
@@ -850,7 +858,7 @@ const MyCalendar = () => {
                       >
                         <div className="title">
                           <i className="fas fa-circle"></i>
-                          <h3 className="event-title">{event.title}</h3>
+                          <h3 className="event-title text-[#565656]">{event.title}</h3>
                         </div>
                         <div className="event-time">
                           <span className="event-time">{event.time}</span>
