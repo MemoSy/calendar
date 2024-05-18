@@ -373,7 +373,6 @@ const MyCalendar = () => {
       // @ts-ignore
       const eventTimeTo = addEventTo.value;
       if (eventTitle === "" || eventTimeFrom === "" || eventTimeTo === "") {
-        alert("Please fill all the fields");
         return;
       }
 
