@@ -460,46 +460,46 @@ const MyCalendar = () => {
       addEventTo.value = "";
     });
 
-    //function to delete event when clicked on event
-    eventsContainer?.addEventListener("click", (e) => {
-      // @ts-ignore
-      if (e.target.classList.contains("event")) {
-        if (confirm("Are you sure you want to delete this event?")) {
-          // @ts-ignore
-          const eventTitle = e.target.children[0].children[1].innerHTML;
-          eventsArr.forEach((event: any) => {
-            if (
-              event.day === activeDay &&
-              event.month === month + 1 &&
-              event.year === year
-            ) {
-              event.events.forEach((item: any, index: any) => {
-                if (item.title === eventTitle) {
-                  event.events.splice(index, 1);
-                }
-              });
-              //if no events left in a day then remove that day from eventsArr
-              if (event.events.length === 0) {
-                eventsArr.splice(eventsArr.indexOf(event), 1);
-                //remove event class from day
-                const activeDayEl = document.querySelector(".day.active");
-                // @ts-ignore
-                if (activeDayEl.classList.contains("event")) {
-                  // @ts-ignore
-                  activeDayEl.classList.remove("event");
-                }
-              }
-            }
-          });
-          // updateEvents(activeDay);
+    // //function to delete event when clicked on event
+    // eventsContainer?.addEventListener("click", (e) => {
+    //   // @ts-ignore
+    //   if (e.target.classList.contains("event")) {
+    //     if (confirm("Are you sure you want to delete this event?")) {
+    //       // @ts-ignore
+    //       const eventTitle = e.target.children[0].children[1].innerHTML;
+    //       eventsArr.forEach((event: any) => {
+    //         if (
+    //           event.day === activeDay &&
+    //           event.month === month + 1 &&
+    //           event.year === year
+    //         ) {
+    //           event.events.forEach((item: any, index: any) => {
+    //             if (item.title === eventTitle) {
+    //               event.events.splice(index, 1);
+    //             }
+    //           });
+    //           //if no events left in a day then remove that day from eventsArr
+    //           if (event.events.length === 0) {
+    //             eventsArr.splice(eventsArr.indexOf(event), 1);
+    //             //remove event class from day
+    //             const activeDayEl = document.querySelector(".day.active");
+    //             // @ts-ignore
+    //             if (activeDayEl.classList.contains("event")) {
+    //               // @ts-ignore
+    //               activeDayEl.classList.remove("event");
+    //             }
+    //           }
+    //         }
+    //       });
+    //       // updateEvents(activeDay);
 
-          // Update the events in localStorage
+    //       // Update the events in localStorage
 
-          // localStorage is safe to use here
-          localStorage.setItem("events", JSON.stringify(eventsArr));
-        }
-      }
-    });
+    //       // localStorage is safe to use here
+    //       localStorage.setItem("events", JSON.stringify(eventsArr));
+    //     }
+    //   }
+    // });
 
     function convertTime(time: any) {
       //convert time to 24 hour format
@@ -743,12 +743,41 @@ const MyCalendar = () => {
                         key={index}
                         className="event"
                         onClick={(e) => {
-                          if (
-                            confirm(
-                              "Are you sure you want to delete this event?"
-                            )
-                          ) {
-                            // Your event handling code here
+                          let eventsArr = [];
+                          if (typeof window !== "undefined") {
+                            eventsArr = JSON.parse(
+                              localStorage.getItem("events") || "[]"
+                            );
+                          }
+                          if (confirm("Silmek istediginden eminmisin?")) {
+                            const eventTitle =
+                              // @ts-ignore
+                              e.target?.children[0].children[1].innerHTML;
+                            eventsArr.forEach((event: any) => {
+                              event.events.forEach((item: any, index: any) => {
+                                if (item.title === eventTitle) {
+                                  event.events.splice(index, 1);
+                                }
+                              });
+                              //if no events left in a day then remove that day from eventsArr
+                              if (event.events.length === 0) {
+                                eventsArr.splice(eventsArr.indexOf(event), 1);
+                                //remove event class from day
+                                const activeDayEl =
+                                  document.querySelector(".day.active");
+                                if (activeDayEl?.classList.contains("event")) {
+                                  activeDayEl.classList.remove("event");
+                                }
+                              }
+                            });
+
+                            // Update the events in localStorage
+
+                            // localStorage is safe to use here
+                            localStorage.setItem(
+                              "events",
+                              JSON.stringify(eventsArr)
+                            );
                           }
                         }}
                       >
@@ -782,9 +811,6 @@ const MyCalendar = () => {
                         key={index}
                         className="event"
                         onClick={(e) => {
-                          let today = new Date();
-                          let month = today.getMonth();
-                          let year = today.getFullYear();
                           let eventsArr = [];
                           if (typeof window !== "undefined") {
                             eventsArr = JSON.parse(
@@ -816,7 +842,10 @@ const MyCalendar = () => {
                             // Update the events in localStorage
 
                             // localStorage is safe to use here
-                            localStorage.setItem("events", JSON.stringify(eventsArr));
+                            localStorage.setItem(
+                              "events",
+                              JSON.stringify(eventsArr)
+                            );
                           }
                         }}
                       >

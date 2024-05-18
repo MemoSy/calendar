@@ -83,6 +83,11 @@ hr {
   /* 3 */
 }
 
+.noopacity {
+  position: absolute !important;
+  opacity: 0 !important;
+}
+
 /*
 Add the correct text decoration in Chrome, Edge, and Safari.
 */
