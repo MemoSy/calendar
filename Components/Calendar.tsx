@@ -23,7 +23,10 @@ const MyCalendar = () => {
     // Ramazan Bayramı and Kurban Bayramı are not included because they change every year
   };
 
-  const local = localStorage.getItem("events")
+  let local;
+  if (typeof window !== "undefined") {
+    local = localStorage.getItem("events");
+  }
 
   useEffect(() => {
     const calendar = document.querySelector(".calendar"),
@@ -85,9 +88,11 @@ const MyCalendar = () => {
     //   },
     // ];
 
-    // Get the events from localStorage and parse them back into an array
-    const eventsArr = JSON.parse(localStorage.getItem("events") || "[]");
-
+    // @ts-ignore
+    let eventsArr = [];
+    if (typeof window !== "undefined") {
+      eventsArr = JSON.parse(localStorage.getItem("events") || "[]");
+    }
     //function to add days in days with class day and prev-date next-date on previous month and next month days and active on today
     function initCalendar() {
       const firstDay = new Date(year, month, 1);
@@ -118,6 +123,7 @@ const MyCalendar = () => {
         } else {
           //check if event is present on that day
           let event = false;
+          // @ts-ignore
           eventsArr.forEach((eventObj: any) => {
             if (
               eventObj.day === i &&
@@ -440,7 +446,10 @@ const MyCalendar = () => {
       }
 
       // Store the updated eventsArr in localStorage
-      localStorage.setItem("events", JSON.stringify(eventsArr));
+      if (typeof window !== "undefined") {
+        // localStorage is safe to use here
+        localStorage.setItem("key", "value");
+      }
       // @ts-ignore
       addEventWrapper.classList.remove("active");
       // @ts-ignore
@@ -485,7 +494,10 @@ const MyCalendar = () => {
           // updateEvents(activeDay);
 
           // Update the events in localStorage
-          localStorage.setItem("events", JSON.stringify(eventsArr));
+          if (typeof window !== "undefined") {
+            // localStorage is safe to use here
+            localStorage.setItem("key", "value");
+          }
         }
       }
     });
@@ -507,7 +519,10 @@ const MyCalendar = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      const events = JSON.parse(localStorage.getItem("events") || "[]");
+      let events = [];
+      if (typeof window !== "undefined") {
+        events = JSON.parse(localStorage.getItem("events") || "[]");
+      }
       const now = new Date();
       const futureEvents = events.flatMap((event: any) => {
         return event.events
@@ -569,7 +584,10 @@ const MyCalendar = () => {
       }
     }, 1000);
 
-    const events = JSON.parse(localStorage.getItem("events") || "[]");
+    let events = [];
+    if (typeof window !== "undefined") {
+      events = JSON.parse(localStorage.getItem("events") || "[]");
+    }
     const now = new Date();
     const futureEvents = events.filter(
       (event: any) => new Date(event.year, event.month - 1, event.day) >= now
@@ -623,7 +641,10 @@ const MyCalendar = () => {
   }, []);
 
   // Get the events from localStorage and parse them back into an array
-  const allEvents = JSON.parse(localStorage.getItem("events") || "[]");
+  let allEvents = [];
+  if (typeof window !== "undefined") {
+    allEvents = JSON.parse(localStorage.getItem("events") || "[]");
+  }
 
   // Filter the events to only include the ones for the selected day
   const selectedDayEvents = allEvents.filter(
@@ -765,9 +786,12 @@ const MyCalendar = () => {
                           let today = new Date();
                           let month = today.getMonth();
                           let year = today.getFullYear();
-                          const eventsArr = JSON.parse(
-                            localStorage.getItem("events") || "[]"
-                          );
+                          let eventsArr = [];
+                          if (typeof window !== "undefined") {
+                            eventsArr = JSON.parse(
+                              localStorage.getItem("events") || "[]"
+                            );
+                          }
                           if (confirm("Silmek istediginden eminmisin?")) {
                             const eventTitle =
                               // @ts-ignore
@@ -792,10 +816,10 @@ const MyCalendar = () => {
                             // updateEvents(activeDay);
 
                             // Update the events in localStorage
-                            localStorage.setItem(
-                              "events",
-                              JSON.stringify(eventsArr)
-                            );
+                            if (typeof window !== "undefined") {
+                              // localStorage is safe to use here
+                              localStorage.setItem("key", "value");
+                            }
                           }
                         }}
                       >
