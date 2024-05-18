@@ -23,6 +23,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap"
           rel="stylesheet"
         />
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
       </head>
       
       <body className={inter.className}>{children}</body>
