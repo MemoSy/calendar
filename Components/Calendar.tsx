@@ -616,7 +616,9 @@ const MyCalendar = () => {
     onSwiping: (eventData) => setSwipe(eventData.deltaX),
     onSwiped: () => setSwipe(0),
     onSwipedRight: (eventData) => handleDelete(eventData, titleName),
+    // @ts-ignore
     onSwipedLeft: (eventData) => handleDelete(eventData),
+    // @ts-ignore
     preventDefaultTouchmoveEvent: true,
     trackMouse: true,
   });
@@ -761,6 +763,7 @@ const MyCalendar = () => {
                         style={{ transform: `translateX(${swipe}px)` }}
                         onPointerDown={(e) => {
                           setTitleName(
+                            // @ts-ignore
                             e.target?.children[0].children[1].innerHTML
                           );
                         }}
@@ -804,6 +807,7 @@ const MyCalendar = () => {
                       style={{ transform: `translateX(${swipe}px)` }}
                       onPointerDown={(e) => {
                         setTitleName(
+                          // @ts-ignore
                           e.target?.children[0].children[0].innerHTML
                         );
                       }}
