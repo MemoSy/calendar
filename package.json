@@ -23,6 +23,7 @@
     "react-countdown-circle-timer": "^3.2.1",
     "react-dom": "^18",
     "react-modal": "^3.16.1",
+    "react-swipeable": "^7.0.1",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7"
   },

@@ -1,5 +1,6 @@
 "use client";
 
+import { useSwipeable } from "react-swipeable";
 import React, { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
@@ -459,47 +460,6 @@ const MyCalendar = () => {
       addEventTo.value = "";
     });
 
-    // //function to delete event when clicked on event
-    // eventsContainer?.addEventListener("click", (e) => {
-    //   // @ts-ignore
-    //   if (e.target.classList.contains("event")) {
-    //     if (confirm("Are you sure you want to delete this event?")) {
-    //       // @ts-ignore
-    //       const eventTitle = e.target.children[0].children[1].innerHTML;
-    //       eventsArr.forEach((event: any) => {
-    //         if (
-    //           event.day === activeDay &&
-    //           event.month === month + 1 &&
-    //           event.year === year
-    //         ) {
-    //           event.events.forEach((item: any, index: any) => {
-    //             if (item.title === eventTitle) {
-    //               event.events.splice(index, 1);
-    //             }
-    //           });
-    //           //if no events left in a day then remove that day from eventsArr
-    //           if (event.events.length === 0) {
-    //             eventsArr.splice(eventsArr.indexOf(event), 1);
-    //             //remove event class from day
-    //             const activeDayEl = document.querySelector(".day.active");
-    //             // @ts-ignore
-    //             if (activeDayEl.classList.contains("event")) {
-    //               // @ts-ignore
-    //               activeDayEl.classList.remove("event");
-    //             }
-    //           }
-    //         }
-    //       });
-    //       // updateEvents(activeDay);
-
-    //       // Update the events in localStorage
-
-    //       // localStorage is safe to use here
-    //       localStorage.setItem("events", JSON.stringify(eventsArr));
-    //     }
-    //   }
-    // });
-
     function convertTime(time: any) {
       //convert time to 24 hour format
       let timeArr = time.split(":");
@@ -649,6 +609,55 @@ const MyCalendar = () => {
     (item: any) => item.day === selectedDay
   );
 
+  const [swipe, setSwipe] = useState(0);
+  const [titleName, setTitleName] = useState("");
+
+  const handlers = useSwipeable({
+    onSwiping: (eventData) => setSwipe(eventData.deltaX),
+    onSwiped: () => setSwipe(0),
+    onSwipedRight: (eventData) => handleDelete(eventData, titleName),
+    onSwipedLeft: (eventData) => handleDelete(eventData),
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true,
+  });
+
+  const handleDelete = (e: any, titleName1: any) => {
+    if (e.deltaX > 200) {
+      let eventsArr = [];
+      if (typeof window !== "undefined") {
+        eventsArr = JSON.parse(localStorage.getItem("events") || "[]");
+      }
+      if (confirm("Silmek istediginden eminmisin?")) {
+        const eventTitle =
+          // @ts-ignore
+          e.event.target?.children[0].children[1].innerHTML;
+        eventsArr.forEach((event: any) => {
+          console.log(titleName1);
+          console.log(event);
+          event.events.forEach((item: any, index: any) => {
+            if (item.title === titleName1) {
+              event.events.splice(index, 1);
+            }
+          });
+          //if no events left in a day then remove that day from eventsArr
+          if (event.events.length === 0) {
+            eventsArr.splice(eventsArr.indexOf(event), 1);
+            //remove event class from day
+            const activeDayEl = document.querySelector(".day.active");
+            if (activeDayEl?.classList.contains("event")) {
+              activeDayEl.classList.remove("event");
+            }
+          }
+        });
+
+        // Update the events in localStorage
+
+        // localStorage is safe to use here
+        localStorage.setItem("events", JSON.stringify(eventsArr));
+      }
+    }
+  };
+
   return (
     <>
       <div className="containers w-[95%]  flex-col md:flex-row p-0 md:!p-[5px]">
@@ -749,50 +758,27 @@ const MyCalendar = () => {
                       <div
                         key={index}
                         className="event"
-                        onClick={(e) => {
-                          let eventsArr = [];
-                          if (typeof window !== "undefined") {
-                            eventsArr = JSON.parse(
-                              localStorage.getItem("events") || "[]"
-                            );
-                          }
-                          if (confirm("Silmek istediginden eminmisin?")) {
-                            const eventTitle =
-                              // @ts-ignore
-                              e.target?.children[0].children[1].innerHTML;
-                            eventsArr.forEach((event: any) => {
-                              event.events.forEach((item: any, index: any) => {
-                                if (item.title === eventTitle) {
-                                  event.events.splice(index, 1);
-                                }
-                              });
-                              //if no events left in a day then remove that day from eventsArr
-                              if (event.events.length === 0) {
-                                eventsArr.splice(eventsArr.indexOf(event), 1);
-                                //remove event class from day
-                                const activeDayEl =
-                                  document.querySelector(".day.active");
-                                if (activeDayEl?.classList.contains("event")) {
-                                  activeDayEl.classList.remove("event");
-                                }
-                              }
-                            });
-
-                            // Update the events in localStorage
-
-                            // localStorage is safe to use here
-                            localStorage.setItem(
-                              "events",
-                              JSON.stringify(eventsArr)
-                            );
-                          }
+                        style={{ transform: `translateX(${swipe}px)` }}
+                        onPointerDown={(e) => {
+                          setTitleName(
+                            e.target?.children[0].children[1].innerHTML
+                          );
                         }}
+                        {...handlers}
                       >
-                        <div className="title">
+                        <div className="title" style={{ userSelect: "none" }}>
                           <i className="fas fa-circle"></i>
-                          <h3 className="event-title text-[#565656]">{event.title}</h3>
+                          <h3
+                            className="event-title text-[#565656]"
+                            style={{ userSelect: "none" }}
+                          >
+                            {event.title}
+                          </h3>
                         </div>
-                        <div className="event-time">
+                        <div
+                          className="event-time"
+                          style={{ userSelect: "none" }}
+                        >
                           <span className="event-time">{event.time}</span>
                         </div>
                       </div>
@@ -809,65 +795,34 @@ const MyCalendar = () => {
               value="everyday"
               className="events !rounded-lg data-[state=active]:border-2 data-[state=active]:!h-[700px] data-[state=active]:!max-h-[620px] data-[state=active]:!w-[90%]  data-[state=active]:pt-6"
             >
-              {
-                // Map over the events of the selected day
-                allEvents.map((item: any) => {
-                  return item.events.map((event: any, index: any) => {
-                    return (
-                      <div
-                        key={index}
-                        className="event"
-                        onClick={(e) => {
-                          let eventsArr = [];
-                          if (typeof window !== "undefined") {
-                            eventsArr = JSON.parse(
-                              localStorage.getItem("events") || "[]"
-                            );
-                          }
-                          if (confirm("Silmek istediginden eminmisin?")) {
-                            const eventTitle =
-                              // @ts-ignore
-                              e.target?.children[0].children[1].innerHTML;
-                            eventsArr.forEach((event: any) => {
-                              event.events.forEach((item: any, index: any) => {
-                                if (item.title === eventTitle) {
-                                  event.events.splice(index, 1);
-                                }
-                              });
-                              //if no events left in a day then remove that day from eventsArr
-                              if (event.events.length === 0) {
-                                eventsArr.splice(eventsArr.indexOf(event), 1);
-                                //remove event class from day
-                                const activeDayEl =
-                                  document.querySelector(".day.active");
-                                if (activeDayEl?.classList.contains("event")) {
-                                  activeDayEl.classList.remove("event");
-                                }
-                              }
-                            });
-
-                            // Update the events in localStorage
-
-                            // localStorage is safe to use here
-                            localStorage.setItem(
-                              "events",
-                              JSON.stringify(eventsArr)
-                            );
-                          }
-                        }}
-                      >
-                        <div className="title">
-                          <i className="fas fa-circle"></i>
-                          <h3 className="event-title text-[#565656]">{event.title}</h3>
-                        </div>
-                        <div className="event-time">
-                          <span className="event-time">{event.time}</span>
-                        </div>
+              {allEvents.map((item: any) => {
+                return item.events.map((event: any, index: any) => {
+                  return (
+                    <div
+                      key={index}
+                      className="event"
+                      style={{ transform: `translateX(${swipe}px)` }}
+                      onPointerDown={(e) => {
+                        setTitleName(
+                          e.target?.children[0].children[0].innerHTML
+                        );
+                      }}
+                      {...handlers}
+                    >
+                      <div className="title">
+                        <h3 className="event-title text-[#565656]">
+                          {event.title}
+                        </h3>
                       </div>
-                    );
-                  });
-                })
-              }
+
+                      <div className="event-time !w-full flex items-center gap-5">
+                        <span className="event-time">{event.time}</span>
+                        <span className="event-time">{`${item.day}/${item.month}/${item.year}`}</span>
+                      </div>
+                    </div>
+                  );
+                });
+              })}
             </TabsContent>
           </Tabs>
         </div>

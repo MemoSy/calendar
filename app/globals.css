@@ -1240,7 +1240,7 @@ body {
 }
 
 .events .event:hover {
-  background-color: rgb(212, 74, 74);
+  background-color: rgb(74, 212, 189);
 }
 
 .events .event .title {
@@ -1268,33 +1268,14 @@ body {
   font-size: 0.8rem;
   font-weight: 400;
   color: #878895;
-  margin-left: 15px;
+  /* margin-left: 15px; */
   pointer-events: none;
+  justify-content: space-between;
+  padding: 0 10px;
 }
 
 .events .event:hover .event-time {
   color: #fff;
-}
-
-/* add tick in event after */
-
-.events .event::after {
-  content: "✓";
-  position: absolute;
-  top: 50%;
-  right: 0;
-  font-size: 3rem;
-  line-height: 1;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.3;
-  color: var(--primary-clr);
-  transform: translateY(-50%);
-}
-
-.events .event:hover::after {
-  display: flex;
 }
 
 .add-event {
